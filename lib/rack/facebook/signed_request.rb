@@ -24,7 +24,11 @@ module Rack
 
         signed_request = request.params.delete('signed_request')
         unless signed_request
-          return Rack::Response.new(["Missing signed_request param"], 400).finish
+          if @options[:force]
+            return Rack::Response.new(["Missing signed_request param"], 400).finish
+          else
+            @app.call(env)
+          end
         end
 
         signature, signed_params = signed_request.split('.')

@@ -27,7 +27,7 @@ module Rack
           if @options[:force]
             return Rack::Response.new(["Missing signed_request param"], 400).finish
           else
-            @app.call(env)
+            return @app.call(env)
           end
         end
 
